@@ -1,0 +1,29 @@
+<a routerLink="/" class="btn-link back-link">← 返回首页</a>
+
+<div class="article-section">
+  <p *ngIf="loading()" class="form-tip">加载中...</p>
+  <p *ngIf="!loading() && error()" class="form-tip">{{ error() }}</p>
+  <section *ngIf="!loading() && article()" class="article-detail" [attr.data-article-id]="article()?.id">
+    <article>
+      <h1>{{ article()?.title }}</h1>
+      <div class="article-meta">
+        <span *ngIf="article()?.publishTime">{{ article()?.publishTime | date: 'yyyy-MM-dd HH:mm' }}</span>
+        <span *ngIf="article()?.source">来源：{{ article()?.source }}</span>
+      </div>
+      <div class="tag-container">
+        <span *ngFor="let tag of article()?.tags" class="tag">{{ tag }}</span>
+      </div>
+      <div class="article-content">
+        <p *ngFor="let paragraph of contentParagraphs()">{{ paragraph }}</p>
+      </div>
+    </article>
+    <aside class="sidebar">
+      <h3>相关推荐</h3>
+      <ul class="related-list">
+        <li *ngFor="let related of article()?.related">
+          <a [routerLink]="['/articles', related.id]">{{ related.title }}</a>
+        </li>
+      </ul>
+    </aside>
+  </section>
+</div>

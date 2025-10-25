@@ -1,0 +1,38 @@
+.back-link {
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.article-detail {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+}
+
+.article-content p {
+    margin: 12px 0;
+    line-height: 1.6;
+}
+
+.sidebar {
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+}
+
+.related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.related-list li {
+    margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+    .article-detail {
+        grid-template-columns: 1fr;
+    }
+}

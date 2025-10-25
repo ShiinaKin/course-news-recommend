@@ -1,0 +1,37 @@
+<header class="site-header">
+  <nav class="nav-bar">
+    <a class="brand" routerLink="/latest">NewsReco</a>
+    <ul class="nav-links">
+      <li>
+        <a routerLink="/latest" routerLinkActive="active">最新文章</a>
+      </li>
+      <li>
+        <a routerLink="/recommend" routerLinkActive="active">为你推荐</a>
+      </li>
+      <li *ngIf="isAuthenticated()">
+        <a routerLink="/upload" routerLinkActive="active">上传</a>
+      </li>
+      <li *ngIf="isAuthenticated()">
+        <a routerLink="/my-tags" routerLinkActive="active">我的标签</a>
+      </li>
+    </ul>
+    <div class="nav-actions">
+      <span *ngIf="isAuthenticated()" class="nav-user">
+        你好，{{ user()?.nickname || user()?.username }}
+      </span>
+      <button *ngIf="isAuthenticated()" type="button" class="btn-link" (click)="logout()">
+        退出
+      </button>
+      <a *ngIf="!isAuthenticated()" routerLink="/login" class="btn-link">登录</a>
+      <a *ngIf="!isAuthenticated()" routerLink="/register" class="btn-secondary">注册</a>
+    </div>
+  </nav>
+</header>
+
+<main class="site-main">
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  © {{ currentYear }} NewsReco
+</footer>

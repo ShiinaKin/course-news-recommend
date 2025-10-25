@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.sakurasou.newsrecommend.dao.ArticleTagDAO">
+
+  <resultMap id="ArticleTagResult" type="io.sakurasou.newsrecommend.model.ArticleTag">
+    <id column="article_id" property="articleId"/>
+    <result column="tag_id" property="tagId"/>
+    <result column="weight" property="weight"/>
+  </resultMap>
+
+  <select id="findByArticleId" resultMap="ArticleTagResult">
+    SELECT article_id, tag_id, weight
+    FROM article_tags
+    WHERE article_id = #{articleId}
+  </select>
+
+  <select id="findByArticleIds" resultMap="ArticleTagResult">
+    SELECT article_id, tag_id, weight
+    FROM article_tags
+    WHERE article_id IN
+    <foreach collection="articleIds" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </select>
+
+  <delete id="deleteByArticleId">
+    DELETE FROM article_tags WHERE article_id = #{articleId}
+  </delete>
+
+  <insert id="insert" parameterType="io.sakurasou.newsrecommend.model.ArticleTag">
+    INSERT INTO article_tags (article_id, tag_id, weight)
+    VALUES (#{articleId}, #{tagId}, #{weight})
+  </insert>
+
+</mapper>

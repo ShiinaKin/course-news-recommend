@@ -1,0 +1,13 @@
+.article-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.article-card h3 {
+    margin-bottom: 8px;
+}
+
+.hero-actions {
+    margin-top: 16px;
+}

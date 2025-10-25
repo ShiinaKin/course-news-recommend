@@ -1,0 +1,24 @@
+<div class="form-card">
+  <h2>注册</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()" id="register-form">
+    <label>
+      用户名
+      <input type="text" formControlName="username" name="reg-username" placeholder="设置用户名" />
+    </label>
+    <label>
+      昵称
+      <input type="text" formControlName="nickname" name="reg-nickname" placeholder="填写昵称" />
+    </label>
+    <label>
+      密码
+      <input type="password" formControlName="password" name="reg-password" placeholder="设置密码" />
+    </label>
+    <button type="submit" class="btn-primary" [disabled]="loading()">
+      {{ loading() ? '提交中...' : '注册' }}
+    </button>
+    <p *ngIf="message()" class="form-message" id="register-message">{{ message() }}</p>
+  </form>
+  <div class="form-extra">
+    已有账号？<a routerLink="/login">立即登录</a>
+  </div>
+</div>

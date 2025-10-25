@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:news_test;DB_CLOSE_DELAY=-1;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+mybatis:
+  mapper-locations: classpath:dao/*.xml
+  type-aliases-package: io.sakurasou.newsrecommend.model
+  configuration:
+    map-underscore-to-camel-case: true

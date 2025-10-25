@@ -1,0 +1,55 @@
+<div class="upload-grid">
+  <section class="upload-panel">
+    <h2>图片识别上传</h2>
+    <form id="image-upload-form" (submit)="submitImage(); $event.preventDefault();">
+      <input type="file" accept="image/*" (change)="onImageFileSelected($event)" />
+      <button type="submit" class="btn-primary" [disabled]="uploading()">上传图片</button>
+    </form>
+  </section>
+
+  <section class="upload-panel">
+    <h2>音频转写上传</h2>
+    <form id="audio-upload-form" (submit)="submitAudio(); $event.preventDefault();">
+      <input type="file" accept=".mp3,.wav,audio/*" (change)="onAudioFileSelected($event)" />
+      <button type="submit" class="btn-primary" [disabled]="uploading()">上传音频</button>
+    </form>
+  </section>
+
+  <section class="upload-panel">
+    <h2>通过 RSS 获取</h2>
+    <form id="rss-fetch-form" (submit)="fetchRss(); $event.preventDefault();">
+      <div class="rss-presets">
+        <button
+          type="button"
+          class="btn-secondary"
+          *ngFor="let source of rssPresets()"
+          (click)="useRssSource(source.url)"
+        >
+          {{ source.label }}
+        </button>
+      </div>
+      <input
+        type="url"
+        placeholder="输入 RSS 源地址"
+        [value]="rssUrl()"
+        (input)="onRssUrlChange($event)"
+      />
+      <button type="submit" class="btn-primary" [disabled]="rssLoading()">获取内容</button>
+    </form>
+    <p *ngIf="rssMessage()" class="form-message">{{ rssMessage() }}</p>
+  </section>
+</div>
+
+<div class="article-section status-panel">
+  <h2>任务状态</h2>
+  <p *ngIf="message()" class="form-message">{{ message() }}</p>
+  <div *ngIf="currentJob(); else pending" class="job-status" id="job-status">
+    <p>任务编号：{{ currentJob()?.id }}</p>
+    <p>类型：{{ currentJob()?.type }}</p>
+    <p>状态：{{ currentJob()?.status }}</p>
+    <pre *ngIf="currentJob()?.resultText">{{ currentJob()?.resultText }}</pre>
+  </div>
+  <ng-template #pending>
+    <p class="form-tip">暂无任务。</p>
+  </ng-template>
+</div>

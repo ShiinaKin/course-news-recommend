@@ -1,0 +1,44 @@
+app:
+  reco:
+    alpha: 0.5
+    beta: 0.05
+    recentDays: 14
+    candidateLimit: 1000
+  stt:
+    mode: mock
+    modelPath: "/Users/shiinakin/Documents/Code/Projects/whisper.cpp/models/ggml-small.bin"
+    binaryPath: "/Users/shiinakin/Documents/Code/Projects/whisper.cpp/build/bin/whisper-cli"
+    language: "zh"
+  ocr:
+    binPath: /Users/shiinakin/Documents/Code/Exercises/news-recommend/tools/macocr/Build/macocr 2025-10-25 13-35-35/Products/usr/local/bin/macocr
+    langs: zh-Hans,en
+    fast: false
+spring:
+  application:
+    name: news-recommend
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:./newsdb
+    username: newsreco
+    password: 123456
+  sql:
+    init:
+      mode: never
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+  thymeleaf:
+    cache: false
+  h2:
+    console:
+      enabled: true
+      path: /h2
+mybatis:
+  mapper-locations: classpath:dao/*.xml
+  type-aliases-package: io.sakurasou.newsrecommend.model
+  configuration:
+    map-underscore-to-camel-case: true
+server:
+  port: 8080
+logging:
+  level:
+    io.sakurasou.newsrecommend: DEBUG

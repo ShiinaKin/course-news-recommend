@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.sakurasou.newsrecommend.dao.ArticleDAO">
+
+  <resultMap id="ArticleResult" type="io.sakurasou.newsrecommend.model.Article">
+    <id column="id" property="id"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="source" property="source"/>
+    <result column="publish_time" property="publishTime"/>
+    <result column="created_at" property="createdAt"/>
+  </resultMap>
+
+  <select id="findById" parameterType="long" resultMap="ArticleResult">
+    SELECT id, title, content, source, publish_time, created_at
+    FROM articles
+    WHERE id = #{id}
+  </select>
+
+  <select id="findByTitle" parameterType="string" resultMap="ArticleResult">
+    SELECT id, title, content, source, publish_time, created_at
+    FROM articles
+    WHERE title = #{title}
+    LIMIT 1
+  </select>
+
+  <select id="countAll" resultType="long">
+    SELECT COUNT(*) FROM articles
+  </select>
+
+  <select id="listByPublishTime" resultMap="ArticleResult">
+    SELECT id, title, content, source, publish_time, created_at
+    FROM articles
+    ORDER BY COALESCE(publish_time, created_at) DESC
+    LIMIT #{limit} OFFSET #{offset}
+  </select>
+
+  <select id="listByCreatedAt" resultMap="ArticleResult">
+    SELECT id, title, content, source, publish_time, created_at
+    FROM articles
+    ORDER BY created_at DESC
+    LIMIT #{limit} OFFSET #{offset}
+  </select>
+
+  <select id="findRecent" resultMap="ArticleResult">
+    SELECT id, title, content, source, publish_time, created_at
+    FROM articles
+    ORDER BY COALESCE(publish_time, created_at) DESC
+    LIMIT #{limit}
+  </select>
+
+  <insert id="insert" parameterType="io.sakurasou.newsrecommend.model.Article"
+          useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO articles (title, content, source, publish_time, created_at)
+    VALUES (#{title}, #{content}, #{source}, #{publishTime}, CURRENT_TIMESTAMP)
+  </insert>
+
+</mapper>

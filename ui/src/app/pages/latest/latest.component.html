@@ -1,0 +1,38 @@
+<section class="hero">
+  <h1>多模态新闻推荐系统</h1>
+  <p>整合文本、音频转写与图片识别，为你呈现智能新闻流。</p>
+  <div class="hero-actions">
+    <a routerLink="/recommend" class="btn-primary">查看「为你推荐」</a>
+  </div>
+</section>
+
+<section class="article-section">
+  <div class="section-header">
+    <h2>最新文章</h2>
+    <button type="button" class="btn-link" (click)="loadLatest()" [disabled]="latestLoading()">
+      {{ latestLoading() ? '加载中...' : '刷新' }}
+    </button>
+  </div>
+  <div class="article-list">
+    <p *ngIf="latestLoading()" class="form-tip">加载中...</p>
+    <p *ngIf="!latestLoading() && latestError()" class="form-tip">{{ latestError() }}</p>
+    <ng-container *ngIf="!latestLoading() && !latestError()">
+      <p *ngIf="latestArticles().length === 0" class="form-tip">暂无文章。</p>
+      <div *ngFor="let article of latestArticles()" class="article-card">
+        <h3>
+          <a [routerLink]="['/articles', article.id]">{{ article.title }}</a>
+        </h3>
+        <p>{{ article.summary }}</p>
+        <div class="article-meta">
+          <span *ngIf="article.publishTime">{{ article.publishTime | date: 'yyyy-MM-dd HH:mm' }}</span>
+          <span *ngIf="article.score !== undefined && article.score !== null">
+            评分 {{ article.score | number: '1.2-2' }}
+          </span>
+        </div>
+        <div>
+          <span *ngFor="let tag of article.tags" class="tag">{{ tag }}</span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>

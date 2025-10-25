@@ -1,0 +1,41 @@
+<section class="hero">
+  <h1>为你推荐</h1>
+  <p>根据你的兴趣与行为，个性化推荐文章。</p>
+  <div class="hero-actions" *ngIf="isAuthenticated()">
+    <button type="button" class="btn-primary" (click)="loadRecommendations()" [disabled]="loading()">
+      {{ loading() ? '加载中...' : '刷新推荐' }}
+    </button>
+  </div>
+</section>
+
+<section class="article-section">
+  <div *ngIf="!isAuthenticated()" class="form-tip">
+    请先<a routerLink="/login">登录</a>，以获取专属推荐内容。
+  </div>
+
+  <div *ngIf="isAuthenticated()">
+    <p *ngIf="loading()" class="form-tip">加载中...</p>
+    <p *ngIf="!loading() && error()" class="form-tip">{{ error() }}</p>
+
+    <ng-container *ngIf="!loading() && !error()">
+      <p *ngIf="articles().length === 0" class="form-tip">暂无推荐，请稍后再试。</p>
+      <div class="article-list">
+        <div *ngFor="let article of articles()" class="article-card">
+          <h3>
+            <a [routerLink]="['/articles', article.id]">{{ article.title }}</a>
+          </h3>
+          <p>{{ article.summary }}</p>
+          <div class="article-meta">
+            <span *ngIf="article.publishTime">{{ article.publishTime | date: 'yyyy-MM-dd HH:mm' }}</span>
+            <span *ngIf="article.score !== undefined && article.score !== null">
+              评分 {{ article.score | number: '1.2-2' }}
+            </span>
+          </div>
+          <div>
+            <span *ngFor="let tag of article.tags" class="tag">{{ tag }}</span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>

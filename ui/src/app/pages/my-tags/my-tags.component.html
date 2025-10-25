@@ -1,0 +1,23 @@
+<div class="form-card">
+  <h2>我的标签</h2>
+  <p *ngIf="loading()" class="form-tip">加载中...</p>
+  <p *ngIf="!loading() && message()" class="form-message" id="tag-message">{{ message() }}</p>
+  <form *ngIf="!loading() && tags().length > 0" (ngSubmit)="submit()" id="tag-form">
+    <div class="tag-grid">
+      <label *ngFor="let tag of tags()">
+        <input
+          type="checkbox"
+          name="tagIds"
+          [value]="tag.id"
+          [checked]="isChecked(tag.id)"
+          (change)="toggleSelection(tag.id, $event.target.checked)"
+        />
+        <span>{{ tag.name }}</span>
+      </label>
+    </div>
+    <button type="submit" class="btn-primary" [disabled]="saving()">
+      {{ saving() ? '保存中...' : '保存标签' }}
+    </button>
+  </form>
+  <p *ngIf="!loading() && tags().length === 0" class="form-tip">暂无可选标签。</p>
+</div>

@@ -1,0 +1,49 @@
+.upload-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    margin-bottom: 24px;
+}
+
+.upload-panel {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.upload-panel form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.status-panel {
+    margin-top: 12px;
+}
+
+.job-status {
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+}
+
+.rss-presets {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.rss-presets .btn-secondary {
+    border: none;
+    cursor: pointer;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+}

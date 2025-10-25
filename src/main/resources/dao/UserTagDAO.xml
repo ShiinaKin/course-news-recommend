@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.sakurasou.newsrecommend.dao.UserTagDAO">
+
+  <select id="findViewsByUserId" resultType="io.sakurasou.newsrecommend.model.UserTagView">
+    SELECT ut.tag_id AS tagId, t.name AS tagName, ut.weight
+    FROM user_tags ut
+    JOIN tags t ON ut.tag_id = t.id
+    WHERE ut.user_id = #{userId}
+    ORDER BY ut.weight DESC
+  </select>
+
+  <delete id="deleteByUserId">
+    DELETE FROM user_tags WHERE user_id = #{userId}
+  </delete>
+
+  <insert id="insertUserTag">
+    INSERT INTO user_tags (user_id, tag_id, weight, updated_at)
+    VALUES (#{userId}, #{tagId}, #{weight}, CURRENT_TIMESTAMP)
+  </insert>
+
+  <update id="incrementUserTag">
+    UPDATE user_tags
+    SET weight = LEAST(weight + #{delta}, #{maxWeight}),
+        updated_at = CURRENT_TIMESTAMP
+    WHERE user_id = #{userId} AND tag_id = #{tagId}
+  </update>
+
+</mapper>

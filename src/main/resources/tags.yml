@@ -1,0 +1,181 @@
+rules:
+  - keyword: 量子
+    tagId: 1
+    weight: 0.8
+  - keyword: 芯片
+    tagId: 1
+    weight: 0.7
+  - keyword: 算法
+    tagId: 1
+    weight: 0.6
+  - keyword: AI
+    tagId: 1
+    weight: 0.7
+  - keyword: 云计算
+    tagId: 1
+    weight: 0.5
+  - keyword: 财报
+    tagId: 2
+    weight: 0.8
+  - keyword: 营收
+    tagId: 2
+    weight: 0.6
+  - keyword: 投资
+    tagId: 2
+    weight: 0.5
+  - keyword: 股价
+    tagId: 2
+    weight: 0.6
+  - keyword: 融资
+    tagId: 2
+    weight: 0.6
+  - keyword: 夺冠
+    tagId: 3
+    weight: 0.8
+  - keyword: 锦标赛
+    tagId: 3
+    weight: 0.6
+  - keyword: 赛事
+    tagId: 3
+    weight: 0.6
+  - keyword: 球队
+    tagId: 3
+    weight: 0.5
+  - keyword: 运动员
+    tagId: 3
+    weight: 0.5
+  - keyword: 峰会
+    tagId: 4
+    weight: 0.7
+  - keyword: 外交
+    tagId: 4
+    weight: 0.6
+  - keyword: 全球
+    tagId: 4
+    weight: 0.5
+  - keyword: 国际
+    tagId: 4
+    weight: 0.6
+  - keyword: 合作
+    tagId: 4
+    weight: 0.4
+  - keyword: 票房
+    tagId: 5
+    weight: 0.8
+  - keyword: 影视
+    tagId: 5
+    weight: 0.6
+  - keyword: 明星
+    tagId: 5
+    weight: 0.5
+  - keyword: 综艺
+    tagId: 5
+    weight: 0.5
+  - keyword: 娱乐
+    tagId: 5
+    weight: 0.4
+  - keyword: 高校
+    tagId: 6
+    weight: 0.7
+  - keyword: 课堂
+    tagId: 6
+    weight: 0.5
+  - keyword: 学生
+    tagId: 6
+    weight: 0.5
+  - keyword: 教育
+    tagId: 6
+    weight: 0.5
+  - keyword: 课程
+    tagId: 6
+    weight: 0.5
+  - keyword: 社区
+    tagId: 7
+    weight: 0.6
+  - keyword: 治理
+    tagId: 7
+    weight: 0.6
+  - keyword: 公益
+    tagId: 7
+    weight: 0.4
+  - keyword: 社会
+    tagId: 7
+    weight: 0.4
+  - keyword: 服务
+    tagId: 7
+    weight: 0.4
+  - keyword: 车企
+    tagId: 8
+    weight: 0.6
+  - keyword: 新能源
+    tagId: 8
+    weight: 0.7
+  - keyword: 智驾
+    tagId: 8
+    weight: 0.6
+  - keyword: 汽车
+    tagId: 8
+    weight: 0.6
+  - keyword: 续航
+    tagId: 8
+    weight: 0.5
+  - keyword: 土地
+    tagId: 9
+    weight: 0.6
+  - keyword: 楼市
+    tagId: 9
+    weight: 0.7
+  - keyword: 地产
+    tagId: 9
+    weight: 0.6
+  - keyword: 住房
+    tagId: 9
+    weight: 0.5
+  - keyword: 购房
+    tagId: 9
+    weight: 0.5
+  - keyword: 医院
+    tagId: 10
+    weight: 0.7
+  - keyword: 医疗
+    tagId: 10
+    weight: 0.6
+  - keyword: 诊断
+    tagId: 10
+    weight: 0.6
+  - keyword: 疗法
+    tagId: 10
+    weight: 0.5
+  - keyword: 健康
+    tagId: 10
+    weight: 0.4
+  - keyword: 本地
+    tagId: 11
+    weight: 0.6
+  - keyword: 城市
+    tagId: 11
+    weight: 0.5
+  - keyword: 区县
+    tagId: 11
+    weight: 0.5
+  - keyword: 马拉松
+    tagId: 11
+    weight: 0.5
+  - keyword: 活动
+    tagId: 11
+    weight: 0.4
+  - keyword: 原油
+    tagId: 12
+    weight: 0.7
+  - keyword: 石化
+    tagId: 12
+    weight: 0.6
+  - keyword: 炼化
+    tagId: 12
+    weight: 0.6
+  - keyword: 氢能
+    tagId: 12
+    weight: 0.5
+  - keyword: 能源
+    tagId: 12
+    weight: 0.5
