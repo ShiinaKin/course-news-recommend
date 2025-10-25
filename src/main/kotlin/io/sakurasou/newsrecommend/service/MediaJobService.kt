@@ -6,6 +6,7 @@ import io.sakurasou.newsrecommend.model.MediaJob
 import io.sakurasou.newsrecommend.model.MediaJobStatus
 import io.sakurasou.newsrecommend.model.MediaJobType
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.core.task.TaskExecutor
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,7 +28,7 @@ class MediaJobService(
     private val ocrService: OCRService,
     private val articleService: ArticleService,
     private val structureTextService: StructureTextService,
-    private val taskExecutor: TaskExecutor,
+    @field:Qualifier("mediaJobExecutor") private val taskExecutor: TaskExecutor,
 ) {
 
     private val logger = LoggerFactory.getLogger(MediaJobService::class.java)

@@ -1,0 +1,41 @@
+@startuml
+!theme plain
+title 业务流程
+
+start
+:用户访问前端;
+:注册/登录请求;
+if (通过认证?) then (是)
+  :维护兴趣标签;
+  :UserTagService 更新权重;
+else (否)
+  stop
+endif
+
+partition "内容拉取" {
+  :运营触发 RSS 导入;
+  :RSSFeedClient 抓取 XML;
+  :RSSImportService 去重入库;
+  :TitleClassifier/Tagging 自动打标签;
+}
+
+partition "媒体上传" {
+  :用户上传音频/图片;
+  :FileStorage 保存文件;
+  :MediaJobService 入队;
+  if (类型 == STT) then (音频)
+    :Whisper CLI 转写;
+  else (图片)
+    :macOCR CLI 识别;
+  endif
+  :StructureTextService 结构化文本;
+  :ArticleService 生成文章并打标签;
+  :记录用户事件;
+}
+
+:用户浏览/请求推荐;
+:RecommendService 结合 TF-IDF、标签、时间衰减打分;
+:返回推荐结果到前端;
+
+stop
+@enduml

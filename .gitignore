@@ -43,3 +43,4 @@ out/
 **/xcuserdata
 **/__pycache__/
 
+/uploads/

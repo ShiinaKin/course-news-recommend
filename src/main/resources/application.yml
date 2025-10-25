@@ -5,7 +5,7 @@ app:
     recentDays: 14
     candidateLimit: 1000
   stt:
-    mode: mock
+    mode: real
     modelPath: "/Users/shiinakin/Documents/Code/Projects/whisper.cpp/models/ggml-small.bin"
     binaryPath: "/Users/shiinakin/Documents/Code/Projects/whisper.cpp/build/bin/whisper-cli"
     language: "zh"
@@ -16,6 +16,10 @@ app:
 spring:
   application:
     name: news-recommend
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:./newsdb
