@@ -52,6 +52,7 @@ class SecurityConfig(
                         "/register",
                         "/upload",
                         "/my-tags",
+                        "/knowledge-graph",
                         "/articles/**",
                         "/favicon.ico",
                         "/manifest.webmanifest",
@@ -63,6 +64,7 @@ class SecurityConfig(
                         "/api/tags",
                         "/api/jobs/**",
                         "/api/rss/**",
+                        "/api/graph/**",
                     )
                     .permitAll()
                     .anyRequest()

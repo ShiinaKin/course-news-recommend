@@ -27,11 +27,9 @@ spring:
     password: 123456
   sql:
     init:
-      mode: never
+      mode: always
       schema-locations: classpath:schema.sql
       data-locations: classpath:data.sql
-  thymeleaf:
-    cache: false
   h2:
     console:
       enabled: true

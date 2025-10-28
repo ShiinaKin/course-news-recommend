@@ -1,0 +1,155 @@
+.kg-page {
+  display: block;
+  padding: 24px;
+}
+
+.kg-container {
+  display: flex;
+  gap: 24px;
+  min-height: 520px;
+}
+
+.kg-sidebar {
+  width: 260px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #0f172a;
+  color: #f8fafc;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kg-sidebar h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.kg-description {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(248, 250, 252, 0.8);
+}
+
+.kg-focus-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.kg-focus-selector button {
+  flex: 1;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(148, 163, 184, 0.25);
+  color: #f8fafc;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.kg-focus-selector button:hover {
+  background: rgba(148, 163, 184, 0.4);
+  transform: translateY(-1px);
+}
+
+.kg-focus-selector button.active {
+  background: #38bdf8;
+  color: #0f172a;
+}
+
+.kg-legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.kg-legend-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.kg-legend-dot.article {
+  background: #f97316;
+}
+
+.kg-legend-dot.kg-tag {
+  background: #22c55e;
+}
+
+.kg-legend-dot.user {
+  background: #3b82f6;
+}
+
+.kg-status {
+  font-size: 13px;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.kg-status.error {
+  color: #f87171;
+}
+
+.kg-viewport {
+  flex: 1;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #1e293b, #111827);
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  aspect-ratio: 800 / 540;
+  max-width: 100%;
+}
+
+.kg-svg {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+.kg-edges line {
+  stroke: rgba(148, 163, 184, 0.45);
+  transition: stroke 0.2s ease;
+}
+
+.kg-nodes .kg-node circle {
+  stroke: rgba(15, 23, 42, 0.7);
+  stroke-width: 2;
+}
+
+.kg-node-label {
+  fill: rgba(226, 232, 240, 0.92);
+  font-size: 13px;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.kg-empty {
+  color: rgba(226, 232, 240, 0.7);
+  font-size: 15px;
+}
+
+@media (max-width: 960px) {
+  .kg-container {
+    flex-direction: column;
+  }
+
+  .kg-sidebar {
+    width: 100%;
+    flex-direction: column;
+  }
+}

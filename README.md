@@ -4,8 +4,8 @@
 
 ## 1. 技术栈
 - **后端**：Kotlin 2.2、Spring Boot 3.5、Spring Security、Spring Validation、MyBatis、Ktor HTTP Client、Kotlin Coroutines、Jackson
-- **数据层**：H2 文件数据库（自动建表与示例数据）、MyBatis XML 映射、基于 TF-IDF 的文本向量工具
-- **推荐与智能处理**：TF-IDF + 余弦相似度推荐引擎、标题相似度分类器、关键词规则打标、Whisper CLI 语音转写、macOCR CLI 图片 OCR、OpenAI Responses API（结构化文本）
+- **数据层**：H2 文件数据库（自动建表与示例数据）、MyBatis XML 映射、基于 TF-IDF 的文本向量工具、知识图谱实体/关系表
+- **推荐与智能处理**：TF-IDF + 余弦相似度推荐引擎、标题相似度分类器、关键词规则打标、Whisper CLI 语音转写、macOCR CLI 图片 OCR、OpenAI Responses API（结构化文本）、知识图谱同步服务
 - **前端**：Angular 20、RxJS、Angular Router、CSS/HTML
 - **工具链**：Gradle Wrapper、Node.js + pnpm、PlantUML、Python 3 + OpenAI SDK、Swift Package（Vision OCR CLI）
 
@@ -15,8 +15,9 @@
 - **个性化推荐**：基于用户历史行为、兴趣权重与文章新鲜度综合评分，支持推荐列表与文章页关联推荐
 - **内容拉取与打标**：RSS 拉取去重入库、自动调用标题分类器/关键词规则打标签、标签词库可配置
 - **媒体上传自动成稿**：音频上传（STT 转写）、图片上传（OCR 识别），调用结构化脚本生成标准化新闻稿并自动打标签、记录用户事件
+- **知识图谱构建**：自动抽取用户—标签兴趣与文章—标签内容关系，写入 `knowledge_entities` 与 `knowledge_relations` 表，为多模态画像与解释提供基础
 - **辅助能力**：文章标题标签推断 API、H2 后台控制台、媒体任务状态查询
-- **前端页面**：最新文章、个性化推荐、文章详情、我的标签、音频/图片上传、登录、注册
+- **前端页面**：最新文章、个性化推荐、文章详情、知识图谱、我的标签、音频/图片上传、登录、注册
 
 ## 3. 启动流程
 

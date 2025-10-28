@@ -2,6 +2,7 @@ package io.sakurasou.newsrecommend.service
 
 import io.sakurasou.newsrecommend.dao.ArticleTagDAO
 import io.sakurasou.newsrecommend.model.ArticleTag
+import io.sakurasou.newsrecommend.service.KnowledgeGraphService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,6 +12,7 @@ class ArticleAutoTagService(
     private val articleTagDao: ArticleTagDAO,
     private val titleClassifierService: TitleClassifierService,
     private val taggingService: TaggingService,
+    private val knowledgeGraphService: KnowledgeGraphService,
 ) {
 
     private val logger = LoggerFactory.getLogger(ArticleAutoTagService::class.java)
@@ -39,6 +41,8 @@ class ArticleAutoTagService(
         } else if (!fallbackContent.isNullOrBlank()) {
             taggingService.applyTags(articleId, fallbackContent)
         }
+        val assignedTags = articleTagDao.findByArticleId(articleId)
+        knowledgeGraphService.syncArticleTags(articleId, assignedTags)
     }
 
     private companion object {

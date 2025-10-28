@@ -39,6 +39,36 @@ CREATE TABLE IF NOT EXISTS article_tags (
     FOREIGN KEY (tag_id) REFERENCES tags (id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS knowledge_entities (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    entity_type VARCHAR(32) NOT NULL,
+    external_id VARCHAR(128),
+    name VARCHAR(255),
+    description CLOB,
+    modality VARCHAR(32),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (entity_type, external_id)
+);
+CREATE INDEX IF NOT EXISTS idx_knowledge_entities_type ON knowledge_entities (entity_type);
+
+CREATE TABLE IF NOT EXISTS knowledge_relations (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    source_id BIGINT NOT NULL,
+    target_id BIGINT NOT NULL,
+    relation_type VARCHAR(32) NOT NULL,
+    modality VARCHAR(32) DEFAULT '',
+    weight DOUBLE PRECISION NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (source_id) REFERENCES knowledge_entities (id) ON DELETE CASCADE,
+    FOREIGN KEY (target_id) REFERENCES knowledge_entities (id) ON DELETE CASCADE,
+    CHECK (source_id <> target_id)
+);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_knowledge_relations_unique
+    ON knowledge_relations (source_id, target_id, relation_type, modality);
+CREATE INDEX IF NOT EXISTS idx_knowledge_relations_type ON knowledge_relations (relation_type);
+
 CREATE TABLE IF NOT EXISTS user_events (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,

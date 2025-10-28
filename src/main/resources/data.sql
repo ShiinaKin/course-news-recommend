@@ -2,6 +2,8 @@ DELETE FROM user_events;
 DELETE FROM media_jobs;
 DELETE FROM user_tags;
 DELETE FROM article_tags;
+DELETE FROM knowledge_relations;
+DELETE FROM knowledge_entities;
 DELETE FROM articles;
 DELETE FROM tags;
 DELETE FROM users;
@@ -26,8 +28,8 @@ INSERT INTO tags (id, name) VALUES
 
 INSERT INTO user_tags (user_id, tag_id, weight, updated_at) VALUES
     (1, 1, 0.8, CURRENT_TIMESTAMP),
-    (1, 1, 0.8, CURRENT_TIMESTAMP),
-    (2, 1, 0.4, CURRENT_TIMESTAMP),
+    (1, 2, 0.6, CURRENT_TIMESTAMP),
+    (2, 1, 0.5, CURRENT_TIMESTAMP),
     (2, 2, 0.9, CURRENT_TIMESTAMP);
 
 INSERT INTO articles (id, title, content, source, publish_time, created_at) VALUES
@@ -131,3 +133,51 @@ INSERT INTO article_tags (article_id, tag_id, weight) VALUES
     (10, 2,0.6),
     (10, 7,0.4),
     (10, 11,0.4);
+
+INSERT INTO knowledge_entities (id, entity_type, external_id, name, description, modality) VALUES
+    (1, 'USER', '1', '测试用户1', '用户名 test1', NULL),
+    (2, 'USER', '2', '测试用户2', '用户名 test2', NULL),
+    (3, 'TAG', '1', '科技', '科技主题标签', 'text'),
+    (4, 'TAG', '2', '财经', '财经主题标签', 'text'),
+    (5, 'ARTICLE', '1', 'CMF Headphone Pro 无线降噪头戴耳机体验', '总结而言，外观以及耳罩可换的结构还是挺有意思的。', 'text'),
+    (6, 'ARTICLE', '2', 'ChatGPT Atlas 来了：浏览器学会思考了吗？', 'Atlas 重新思考了浏览器的角色，也开启了人机互动的新想象。', 'text'),
+    (7, 'TAG', '4', '国际', '国际主题标签', 'text'),
+    (8, 'TAG', '7', '社会', '社会主题标签', 'text'),
+    (9, 'TAG', '8', '汽车', '汽车主题标签', 'text'),
+    (10, 'TAG', '11', '本地', '本地主题标签', 'text'),
+    (11, 'TAG', '12', '能源', '能源主题标签', 'text'),
+    (12, 'ARTICLE', '3', '派早报：华为发布 HarmonyOS 6、红米发布 REDMI K90 系列新品等', '雷鸟发布 Air 4 智能眼镜，富士发布 X-T30 III 相机等。', 'text'),
+    (13, 'ARTICLE', '4', 'App+1 | 把游戏 UI 做成效率工具：OrbitRing', '介绍 OrbitRing 将游戏中的环形菜单理念带到 macOS 助力效率。', 'text'),
+    (14, 'ARTICLE', '5', '加拿大对中国卡车车身展开反倾销调查', '加拿大对中国卡车车身发起反倾销调查，贸易摩擦升温。', 'text'),
+    (15, 'ARTICLE', '6', '闻泰科技三季度净利大增279%', '闻泰科技净利大增并提示安世半导体控制权风险。', 'text'),
+    (16, 'ARTICLE', '7', '中国北部湾海域最大海洋油气钻采平台完工起运', '涠洲11-4 CEPD平台完工，刷新北部湾油气平台纪录。', 'text'),
+    (17, 'ARTICLE', '8', '中国央行：维护金融市场平稳、深化人民币汇率改革', '央行强调维持市场平稳并深化人民币汇率机制改革。', 'text'),
+    (18, 'ARTICLE', '9', '广东江门疫情防控策略转为常态化防控', '广东江门基孔肯雅热疫情进入常态化防控阶段。', 'text'),
+    (19, 'ARTICLE', '10', '研发投入超百亿，还挤不进这个行业科创TOP10？| 2025行业科创解读（一）', '行业科创解读系列探讨巨额研发投入与竞争格局。', 'text');
+
+ALTER TABLE knowledge_entities ALTER COLUMN id RESTART WITH 100;
+
+INSERT INTO knowledge_relations (source_id, target_id, relation_type, modality, weight) VALUES
+    (1, 3, 'INTEREST', 'behavior', 0.8),
+    (1, 4, 'INTEREST', 'behavior', 0.6),
+    (2, 3, 'INTEREST', 'behavior', 0.5),
+    (2, 4, 'INTEREST', 'behavior', 0.9),
+    (3, 5, 'ANNOTATED_WITH', 'text', 0.5),
+    (3, 6, 'ANNOTATED_WITH', 'text', 0.7),
+    (3, 12, 'ANNOTATED_WITH', 'text', 0.5),
+    (3, 13, 'ANNOTATED_WITH', 'text', 0.7),
+    (7, 14, 'ANNOTATED_WITH', 'text', 0.7),
+    (8, 14, 'ANNOTATED_WITH', 'text', 0.4),
+    (9, 14, 'ANNOTATED_WITH', 'text', 0.6),
+    (10, 14, 'ANNOTATED_WITH', 'text', 0.6),
+    (4, 15, 'ANNOTATED_WITH', 'text', 0.6),
+    (7, 15, 'ANNOTATED_WITH', 'text', 0.5),
+    (8, 15, 'ANNOTATED_WITH', 'text', 0.6),
+    (11, 16, 'ANNOTATED_WITH', 'text', 0.4),
+    (4, 17, 'ANNOTATED_WITH', 'text', 0.6),
+    (7, 17, 'ANNOTATED_WITH', 'text', 0.6),
+    (8, 18, 'ANNOTATED_WITH', 'text', 0.4),
+    (3, 19, 'ANNOTATED_WITH', 'text', 0.5),
+    (4, 19, 'ANNOTATED_WITH', 'text', 0.6),
+    (8, 19, 'ANNOTATED_WITH', 'text', 0.4),
+    (10, 19, 'ANNOTATED_WITH', 'text', 0.4);

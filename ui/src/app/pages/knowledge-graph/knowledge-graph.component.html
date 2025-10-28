@@ -1,0 +1,58 @@
+<section class="kg-page">
+  <div class="kg-container">
+    <aside class="kg-sidebar">
+      <h1>知识图谱</h1>
+      <p class="kg-description">
+        从知识图谱视角查看文章、标签与用户之间的关联关系。选择关注对象后，右侧将展示对应节点及其关联。
+      </p>
+      <div class="kg-focus-selector">
+        <button
+          *ngFor="let option of focusOptions"
+          type="button"
+          (click)="selectFocus(option.value)"
+          [ngClass]="{ active: option.value === selectedFocus() }"
+        >
+          {{ option.label }}
+        </button>
+      </div>
+      <ul class="kg-legend">
+        <li><span class="kg-legend-dot article"></span> 文章节点</li>
+        <li><span class="kg-legend-dot kg-tag"></span> 标签节点</li>
+        <li><span class="kg-legend-dot user"></span> 用户节点</li>
+      </ul>
+      <div class="kg-status" *ngIf="loading()">加载知识图谱...</div>
+      <div class="kg-status error" *ngIf="!loading() && error()">{{ error() }}</div>
+    </aside>
+    <div class="kg-viewport">
+      <svg
+        *ngIf="nodes().length"
+        [attr.viewBox]="viewBox"
+        preserveAspectRatio="xMidYMid meet"
+        role="img"
+        aria-label="知识图谱网络"
+        class="kg-svg"
+      >
+        <g class="kg-edges">
+          <line
+            *ngFor="let edge of edges()"
+            [attr.x1]="edge.sourceX"
+            [attr.y1]="edge.sourceY"
+            [attr.x2]="edge.targetX"
+            [attr.y2]="edge.targetY"
+            [attr.stroke-width]="edge.strokeWidth"
+            [attr.title]="edge.relationType + ' · 权重 ' + (edge.weight | number : '1.1-2')"
+          ></line>
+        </g>
+        <g class="kg-nodes">
+          <g *ngFor="let node of nodes()" class="kg-node">
+            <circle [attr.cx]="node.x" [attr.cy]="node.y" [attr.r]="node.radius" [attr.fill]="node.color"></circle>
+            <text [attr.x]="node.x" [attr.y]="node.y - node.radius - 8" class="kg-node-label">
+              {{ node.displayLabel }}
+            </text>
+          </g>
+        </g>
+      </svg>
+      <div class="kg-empty" *ngIf="!loading() && !nodes().length && !error()">暂无图谱数据</div>
+    </div>
+  </div>
+</section>

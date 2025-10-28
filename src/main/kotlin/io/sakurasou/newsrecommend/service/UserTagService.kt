@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 class UserTagService(
     private val userTagDao: UserTagDAO,
     private val tagDao: TagDAO,
+    private val knowledgeGraphService: KnowledgeGraphService,
 ) {
 
     fun listAllTags(): List<TagResponse> = tagDao.findAll()
@@ -24,6 +25,8 @@ class UserTagService(
         tagIds.distinct().forEach { tagId ->
             userTagDao.insertUserTag(userId, tagId, 0.5)
         }
+        val views = userTagDao.findViewsByUserId(userId)
+        knowledgeGraphService.syncUserTagInterests(userId, views)
     }
 
     @Transactional
@@ -35,5 +38,7 @@ class UserTagService(
                 userTagDao.insertUserTag(userId, tagId, initial)
             }
         }
+        val views = userTagDao.findViewsByUserId(userId)
+        knowledgeGraphService.syncUserTagInterests(userId, views)
     }
 }

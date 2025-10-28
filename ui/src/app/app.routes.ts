@@ -6,6 +6,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { MyTagsComponent } from './pages/my-tags/my-tags.component';
 import { UploadComponent } from './pages/upload/upload.component';
 import { RecommendComponent } from './pages/recommend/recommend.component';
+import { KnowledgeGraphComponent } from './pages/knowledge-graph/knowledge-graph.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'latest', pathMatch: 'full' },
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'my-tags', component: MyTagsComponent },
   { path: 'upload', component: UploadComponent },
+  { path: 'knowledge-graph', component: KnowledgeGraphComponent },
   { path: '**', redirectTo: 'latest' },
 ];

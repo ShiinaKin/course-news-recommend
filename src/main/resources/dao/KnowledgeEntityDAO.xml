@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.sakurasou.newsrecommend.dao.KnowledgeEntityDAO">
+
+  <resultMap id="KnowledgeEntityResult" type="io.sakurasou.newsrecommend.model.graph.KnowledgeEntity">
+    <id column="id" property="id"/>
+    <result column="entity_type" property="entityType"/>
+    <result column="external_id" property="externalId"/>
+    <result column="name" property="name"/>
+    <result column="description" property="description"/>
+    <result column="modality" property="modality"/>
+    <result column="created_at" property="createdAt"/>
+    <result column="updated_at" property="updatedAt"/>
+  </resultMap>
+
+  <select id="findById" parameterType="long" resultMap="KnowledgeEntityResult">
+    SELECT id, entity_type, external_id, name, description, modality, created_at, updated_at
+    FROM knowledge_entities
+    WHERE id = #{id}
+  </select>
+
+  <select id="findByExternalId" resultMap="KnowledgeEntityResult">
+    SELECT id, entity_type, external_id, name, description, modality, created_at, updated_at
+    FROM knowledge_entities
+    WHERE entity_type = #{entityType}
+      AND external_id = #{externalId}
+    LIMIT 1
+  </select>
+
+  <select id="findAll" resultMap="KnowledgeEntityResult">
+    SELECT id, entity_type, external_id, name, description, modality, created_at, updated_at
+    FROM knowledge_entities
+    ORDER BY entity_type, id
+  </select>
+
+  <select id="findByType" resultMap="KnowledgeEntityResult">
+    SELECT id, entity_type, external_id, name, description, modality, created_at, updated_at
+    FROM knowledge_entities
+    WHERE entity_type = #{entityType}
+    ORDER BY id
+  </select>
+
+  <insert id="insert"
+          parameterType="io.sakurasou.newsrecommend.model.graph.KnowledgeEntity"
+          useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO knowledge_entities (entity_type, external_id, name, description, modality)
+    VALUES (#{entityType}, #{externalId}, #{name}, #{description}, #{modality})
+  </insert>
+
+  <update id="update" parameterType="io.sakurasou.newsrecommend.model.graph.KnowledgeEntity">
+    UPDATE knowledge_entities
+    SET name = #{name},
+        description = #{description},
+        modality = #{modality},
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+  </update>
+
+</mapper>
