@@ -1,5 +1,15 @@
 import { DecimalPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { GraphFocus, KnowledgeGraphService } from '../../services/knowledge-graph.service';
@@ -38,11 +48,23 @@ interface RenderEdge {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KnowledgeGraphComponent implements OnInit, OnDestroy {
+  @ViewChild('graphSvg') private svgRef?: ElementRef<SVGSVGElement>;
+
   private readonly graphService = inject(KnowledgeGraphService);
 
   readonly canvasWidth = 800;
-  readonly canvasHeight = 540;
-  readonly viewBox = `0 0 ${this.canvasWidth} ${this.canvasHeight}`;
+  readonly canvasHeight = 800;
+  private readonly initialViewBox = {
+    x: 0,
+    y: 0,
+    width: this.canvasWidth,
+    height: this.canvasHeight,
+  };
+  readonly viewBoxState = signal({ ...this.initialViewBox });
+  readonly viewBox = computed(() => {
+    const box = this.viewBoxState();
+    return `${box.x} ${box.y} ${box.width} ${box.height}`;
+  });
 
   readonly focusOptions: { value: GraphFocus; label: string }[] = [
     { value: 'ARTICLE', label: '文章' },
@@ -55,7 +77,9 @@ export class KnowledgeGraphComponent implements OnInit, OnDestroy {
   readonly error = signal<string | null>(null);
   readonly nodes = signal<RenderNode[]>([]);
   readonly edges = signal<RenderEdge[]>([]);
+  readonly dragging = signal(false);
   private activeSubscription: Subscription | null = null;
+  private lastPointerPosition: { x: number; y: number } | null = null;
 
   ngOnInit(): void {
     this.loadGraph(this.selectedFocus());
@@ -88,6 +112,7 @@ export class KnowledgeGraphComponent implements OnInit, OnDestroy {
         this.error.set(extractErrorMessage(error));
         this.nodes.set([]);
         this.edges.set([]);
+        this.resetViewBox();
       },
     });
     this.activeSubscription = subscription;
@@ -97,8 +122,10 @@ export class KnowledgeGraphComponent implements OnInit, OnDestroy {
     if (!response.nodes.length) {
       this.nodes.set([]);
       this.edges.set([]);
+      this.resetViewBox();
       return;
     }
+    this.resetViewBox();
     const centerX = this.canvasWidth / 2;
     const centerY = this.canvasHeight / 2;
     const baseRadius = Math.min(this.canvasWidth, this.canvasHeight);
@@ -195,6 +222,109 @@ export class KnowledgeGraphComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.activeSubscription?.unsubscribe();
     this.activeSubscription = null;
+  }
+
+  onPointerDown(event: PointerEvent): void {
+    if (event.button !== 0 || !this.nodes().length) {
+      return;
+    }
+    event.preventDefault();
+    const position = this.getSvgCoordinates(event);
+    if (!position) {
+      return;
+    }
+    this.lastPointerPosition = position;
+    this.dragging.set(true);
+    const svg = this.svgRef?.nativeElement;
+    svg?.setPointerCapture(event.pointerId);
+  }
+
+  onPointerMove(event: PointerEvent): void {
+    if (!this.dragging()) {
+      return;
+    }
+    event.preventDefault();
+    const position = this.getSvgCoordinates(event);
+    if (!position || !this.lastPointerPosition) {
+      return;
+    }
+    const deltaX = position.x - this.lastPointerPosition.x;
+    const deltaY = position.y - this.lastPointerPosition.y;
+    this.viewBoxState.update(box => ({
+      ...box,
+      x: box.x - deltaX,
+      y: box.y - deltaY,
+    }));
+    this.lastPointerPosition = position;
+  }
+
+  onPointerUp(event: PointerEvent): void {
+    if (!this.dragging()) {
+      return;
+    }
+    const svg = this.svgRef?.nativeElement;
+    if (svg?.hasPointerCapture(event.pointerId)) {
+      svg.releasePointerCapture(event.pointerId);
+    }
+    this.dragging.set(false);
+    this.lastPointerPosition = null;
+  }
+
+  onWheel(event: WheelEvent): void {
+    if (!this.nodes().length) {
+      return;
+    }
+    event.preventDefault();
+    const point = this.getSvgCoordinates(event);
+    if (!point) {
+      return;
+    }
+    const current = this.viewBoxState();
+    const zoomFactor = Math.exp(-event.deltaY * 0.001);
+    const aspectRatio = this.canvasHeight / this.canvasWidth;
+    const minWidth = this.canvasWidth * 0.25;
+    const maxWidth = this.canvasWidth * 4;
+
+    let newWidth = current.width / zoomFactor;
+    newWidth = Math.min(Math.max(newWidth, minWidth), maxWidth);
+    const ratio = newWidth / current.width;
+    const newHeight = newWidth * aspectRatio;
+
+    const newX = point.x - (point.x - current.x) * ratio;
+    const newY = point.y - (point.y - current.y) * ratio;
+
+    this.viewBoxState.set({
+      x: newX,
+      y: newY,
+      width: newWidth,
+      height: newHeight,
+    });
+  }
+
+  private resetViewBox(): void {
+    this.viewBoxState.set({ ...this.initialViewBox });
+    this.dragging.set(false);
+    this.lastPointerPosition = null;
+  }
+
+  private getSvgCoordinates(event: PointerEvent | WheelEvent): { x: number; y: number } | null {
+    const svg = this.svgRef?.nativeElement;
+    if (!svg) {
+      return null;
+    }
+    const rect = svg.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) {
+      return null;
+    }
+    const box = this.viewBoxState();
+    const clientX = event.clientX;
+    const clientY = event.clientY;
+    const relativeX = (clientX - rect.left) / rect.width;
+    const relativeY = (clientY - rect.top) / rect.height;
+    return {
+      x: box.x + relativeX * box.width,
+      y: box.y + relativeY * box.height,
+    };
   }
 
   private resolveColor(type: string): string {

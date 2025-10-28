@@ -46,3 +46,4 @@ out/
 /uploads/
 
 **/.DS_Store
+newsdb.mv.db

@@ -25,12 +25,20 @@
     </aside>
     <div class="kg-viewport">
       <svg
+        #graphSvg
         *ngIf="nodes().length"
-        [attr.viewBox]="viewBox"
+        [attr.viewBox]="viewBox()"
         preserveAspectRatio="xMidYMid meet"
         role="img"
         aria-label="知识图谱网络"
         class="kg-svg"
+        [class.dragging]="dragging()"
+        (pointerdown)="onPointerDown($event)"
+        (pointermove)="onPointerMove($event)"
+        (pointerup)="onPointerUp($event)"
+        (pointerleave)="onPointerUp($event)"
+        (pointercancel)="onPointerUp($event)"
+        (wheel)="onWheel($event)"
       >
         <g class="kg-edges">
           <line
