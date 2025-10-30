@@ -1,0 +1,19 @@
+@startuml
+skinparam monochrome true
+actor 用户
+participant "RecommendController" as RC
+participant "RecommendService" as RS
+database "articles\narticle_tags" as Articles
+database "user_events\nuser_tags" as Users
+
+用户 -> RC : GET /api/recommend?topK
+RC -> RS : recommendForUser(userId, topK)
+RS -> Articles : findRecent(limit)
+RS -> RS : TF-IDF 向量化\nbuildTfidfVectors
+RS -> Users : findRecentArticleIdsByUser\nbuildUserProfileVector
+RS -> Users : findViewsByUserId\nbuildUserTagVector
+RS -> Articles : findByArticleIds\nbuildArticleTagVectors
+RS -> RS : computeRecency\n合成得分
+RS -> RC : topK ArticleSummaryDTO
+RC -> 用户 : JSON 推荐结果
+@enduml

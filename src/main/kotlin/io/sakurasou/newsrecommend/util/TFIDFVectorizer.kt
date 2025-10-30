@@ -20,10 +20,10 @@ class TFIDFVectorizer {
         val termFrequencies = mutableMapOf<Long, MutableMap<Int, Double>>()
 
         var nextIndex = 0
-        contents.forEach { (docId, rawContent) ->
+        contents.forEach { (articleId, rawContent) ->
             val tokens = TextUtils.tokenize(rawContent)
             if (tokens.isEmpty()) {
-                termFrequencies[docId] = mutableMapOf()
+                termFrequencies[articleId] = mutableMapOf()
                 return@forEach
             }
             val counts = mutableMapOf<Int, Double>()
@@ -33,7 +33,7 @@ class TFIDFVectorizer {
             }
             val tokenCount = tokens.size.toDouble()
             val tfMap = counts.mapValues { (_, freq) -> freq / tokenCount }.toMutableMap()
-            termFrequencies[docId] = tfMap
+            termFrequencies[articleId] = tfMap
             counts.keys.forEach { idx ->
                 documentFrequency[idx] = (documentFrequency[idx] ?: 0) + 1
             }

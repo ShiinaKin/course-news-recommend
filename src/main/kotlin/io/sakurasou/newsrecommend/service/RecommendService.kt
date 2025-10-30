@@ -35,7 +35,7 @@ class RecommendService(
         if (candidates.isEmpty()) {
             return emptyList()
         }
-        val vectors = buildTfidfVectors(candidates)
+        val vectors = buildTFIDFVectors(candidates)
         val profileVector = buildUserProfileVector(userId, vectors)
         val userTagVector = buildUserTagVector(userId)
         val articleTagVectors = buildArticleTagVectors(candidates)
@@ -70,7 +70,7 @@ class RecommendService(
         }
     }
 
-    private fun buildTfidfVectors(articles: List<Article>): Map<Long, Map<Int, Double>> {
+    private fun buildTFIDFVectors(articles: List<Article>): Map<Long, Map<Int, Double>> {
         val contentMap = articles.associate { article ->
             article.id!! to article.content
         }
